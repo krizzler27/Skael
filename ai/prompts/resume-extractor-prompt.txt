@@ -1,0 +1,7 @@
+Extract important details from the following User Resume to check the match with Job Description ATS data.
+This data will be matched against a Job summary in later steps.
+The user resume contains information about the work experience, skills, responsibilities, education, certifications and Keywords.
+Provide a structured JSON with keys: "User Title", "Skills" (as a list), "Responsibilities" (as a list), "Experience Level", "Location", "Education", "Certifications", and "Keywords". 
+
+User Resume: 
+{USER_RESUME}

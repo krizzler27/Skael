@@ -1,0 +1,10 @@
+Analyze the match between extracted ATS data from job summary and extracted user details from user resume. 
+This data will be shared with user.
+Both extracted data contains information about the work experience, skills, responsibilities, education, certifications and Keywords.
+Provide a JSON response with keys "Score_match", and "Explanation"
+
+Extracted Job Data: 
+{EXTRACTED_JOB_DATA}
+
+Extracted User Data: 
+{EXTRACTED_USER_DATA}
