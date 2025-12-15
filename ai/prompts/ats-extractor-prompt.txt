@@ -1,7 +1,0 @@
-Extract important details from the following job description to enable ATS-like data matching.
-This data will be matched against a candidate’s resume in later steps.
-The job description contains information about the job title, required skills, responsibilities, experience level, location, education, certifications, and Keywords.
-Provide a structured JSON with keys: "Job Title", "Required Skills" (as a list), "Responsibilities" (as a list), "Experience Level", "Location", "Education", "Certifications", and "Keywords". 
-
-Job Description: 
-{JOB_DESCRIPTION}

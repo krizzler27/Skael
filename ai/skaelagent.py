@@ -1,47 +1,30 @@
 from ai.llmservices import LLMServices
-from langgraph.graph import StateGraph, START, END
-from langgraph.checkpoint.memory import MemorySaver
-from ai.models import SkaelState
-
 class SkaelAgent:
 
     def __init__(self):
         self.llm = LLMServices()
-    
-    def parse_job(self, state: SkaelState):
-        prompt = self.llm.load_prompt('ats-extractor-prompt', JOB_DESCRIPTION=state["job_description"])
+
+    def parse_job(self, JOB_DESCRIPTION):
+        prompt = self.llm.load_prompt('extractor-prompt', INPUT_CONTENT=JOB_DESCRIPTION, INPUT_TYPE=JOB_DESCRIPTION)
         response = self.llm.invoke_llm(prompt)
-        return {"extracted_job_data" : self.llm.clean_json(response.content)}
-    
-    def parse_resume(self, state: SkaelState):
-        prompt = self.llm.load_prompt('resume-extractor-prompt', USER_RESUME=state["user_resume"])
+        return self.llm.clean_json(response.content)
+
+    def parse_resume(self, USER_RESUME):
+        prompt = self.llm.load_prompt('extractor-prompt', INPUT_CONTENT=USER_RESUME, INPUT_TYPE=USER_RESUME)
         response = self.llm.invoke_llm(prompt)
-        return {"extracted_user_data" : self.llm.clean_json(response.content)}
+        return self.llm.clean_json(response.content)
 
-    def analyze_match(self, state: SkaelState):
-        prompt = self.llm.load_prompt('analyze-match-prompt', EXTRACTED_JOB_DATA=state["job_description"], EXTRACTED_USER_DATA=state["user_resume"])
+    def analyze_match(self, AI_JD, AI_RESUME):
+        prompt = self.llm.load_prompt('analyze-match-prompt', EXTRACTED_JOB_DATA=AI_JD, EXTRACTED_USER_DATA=AI_RESUME)
         response = self.llm.invoke_llm(prompt)
-        return {"analyze" : self.llm.clean_json(response.content)}
-    
-    def orchestrator(self, job_desc, user_resume):
-        memory = MemorySaver()
+        return self.llm.clean_json(response.content)
 
-        workflow = StateGraph(SkaelState)
-        workflow.add_node("parse_job", self.parse_job)
-        workflow.add_node("parse_resume", self.parse_resume)
-        workflow.add_node("analyze_match", self.analyze_match)
+    def resume_rewrite(self, AI_JD, AI_RESUME, AI_ANALYSIS):
+        prompt = self.llm.load_prompt('resume-rewrite-prompt', JOB_JSON=AI_JD, RESUME_JSON=AI_RESUME, ANALYSIS_JSON=AI_ANALYSIS)
+        response = self.llm.invoke_llm(prompt)
+        return self.llm.clean_json(response.content)
 
-        workflow.add_edge(START, "parse_job")
-        workflow.add_edge("parse_job", "parse_resume")
-        workflow.add_edge("parse_resume", "analyze_match")
-        workflow.add_edge("analyze_match", END)
-
-        graph = workflow.compile()
-        res = graph.invoke(
-            {
-                "job_description":job_desc,
-                "user_resume":user_resume
-            }
-        )
-
-        return res
+    def resume_review(self, AI_REWRITE ,AI_JD):
+        prompt = self.llm.load_prompt('resume-review-prompt', JOB_JSON=AI_JD, RESUME_REWRITE_JSON=AI_REWRITE)
+        response = self.llm.invoke_llm(prompt)
+        return self.llm.clean_json(response.content)

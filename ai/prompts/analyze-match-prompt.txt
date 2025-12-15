@@ -1,10 +1,16 @@
-Analyze the match between extracted ATS data from job summary and extracted user details from user resume. 
-This data will be shared with user.
-Both extracted data contains information about the work experience, skills, responsibilities, education, certifications and Keywords.
-Provide a JSON response with keys "Score_match", and "Explanation"
+You are an expert career assistant. Analyze the alignment between the job data and the user data. Both contain details about work experience, skills, responsibilities, education, certifications, and keywords.
 
-Extracted Job Data: 
+Your task is to produce a JSON output with the following structure:
+{{
+  "Score_match": <numeric score 0-100>, 
+  "Explanation": "<concise, actionable summary highlighting strengths, gaps, and areas for improvement>"
+}}
+
+"Score_match": should reflect how well the user’s profile fits the job requirements.
+"Explanation": should clearly identify matched skills, missing skills, relevant experience, and other factors affecting fit. Be concise, informative, and professional.
+
+Job Data:
 {EXTRACTED_JOB_DATA}
 
-Extracted User Data: 
+User Data:
 {EXTRACTED_USER_DATA}

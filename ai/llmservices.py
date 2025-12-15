@@ -16,13 +16,17 @@ class LLMServices:
     def invoke_llm(self, prompt):
         response = self.llm_model.invoke(prompt)
         return response
-    
-    def clean_json(self, result):
+
+    def clean_json(self, result, for_llm=True):
         """Clean and parse JSON response from LLM"""
+        result = result.strip()
         if result.startswith("```json"):
             result = re.sub(r"```json\s*|\s*```", "", result).strip()
         try:
-            return json.loads(result)
+            if for_llm:
+                return json.dumps(json.loads(result), ensure_ascii=False)
+            else:
+                return json.loads(result)
         except Exception:
             raise ValueError(f"LLM output could not be parsed as expected:\n{result}") 
 

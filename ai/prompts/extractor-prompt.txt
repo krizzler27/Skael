@@ -1,0 +1,38 @@
+You are an expert recruiter and ATS assistant. Extract all important details from the following input to create a structured dataset suitable for matching, scoring, or rewriting.
+Input Type: {INPUT_TYPE} (either "JOB_DESCRIPTION" or "USER_RESUME")
+The input may contain information about titles, skills, required skills, responsibilities, experience level, location, education, certifications, and keywords.
+
+Provide a structured JSON output with these base keys:
+{{
+  "Title": "<job title or user title>",
+  "Skills": [],
+  "Responsibilities": [],
+  "Experience Level": "",
+  "Location": "",
+  "Education": "",
+  "Certifications": [],
+  "Keywords": []
+}}
+
+In addition to the base keys, add any extra fields that appear in the input and are valuable for ATS matching, resume scoring, or resume rewriting.
+Examples include (but are not limited to):
+-> Achievements
+-> Tools & Technologies
+-> Projects
+-> Soft Skills
+-> Industry Expertise
+-> Domain Knowledge
+-> Notable Metrics
+-> Publications
+-> Awards
+
+Only add these extra keys if they are explicitly present in the input.
+Do not invent or assume information.
+
+Ensure the JSON is:
+Clean, concise, and structured
+Fully based on actual content
+Useful for accurate ATS‑style matching and resume optimization
+
+Input:
+{INPUT_CONTENT}
